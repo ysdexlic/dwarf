@@ -1,4 +1,4 @@
-![dwarf.vim](https://imgur.com/wrOXZ3k.png)
+![dwarf.vim](https://imgur.com/izNbqOO.png)
 
 # Installation
 ```VimL
