@@ -3,23 +3,7 @@
 " This is a [lightline.vim](https://github.com/itchyny/lightline.vim) colorscheme for use with
 " the [dwarf.vim](https://github.com/ysdexlic/dwarf.vim) colorscheme.
 
-let s:style = get(g:, 'dwarfcolor', 'forge')
-
-let s:themes = dwarf#GetThemes()
-
-let s:colors = s:themes.forge
-
-if s:style == 'onedark'
-  let s:colors = s:themes.onedark
-endif
-
-if s:style == 'dungeon'
-  let s:colors = s:themes.dungeon
-endif
-
-if s:style == 'iron'
-  let s:colors = s:themes.iron
-endif
+let s:colors = dwarf#GetColors()
 
 let s:red = s:colors.red.gui
 let s:green = s:colors.green.gui

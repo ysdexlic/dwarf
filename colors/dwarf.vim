@@ -16,10 +16,6 @@ set t_Co=256
 
 let g:colors_name="dwarf"
 
-if !exists("g:dwarf_termcolors")
-  let g:dwarf_termcolors = 256
-endif
-
 " Not all terminals support italics properly. If yours does, opt-in.
 if !exists("g:dwarf_terminal_italics")
   let g:dwarf_terminal_italics = 0
@@ -31,7 +27,7 @@ function! s:h(group, style, ...)
     let s:highlight = s:group_colors[a:group]
     for style_type in ["fg", "bg", "sp"]
       if (has_key(a:style, style_type))
-        let l:default_style = (has_key(s:highlight, style_type) ? copy(s:highlight[style_type]) : { "cterm16": "NONE", "cterm": "NONE", "gui": "NONE" })
+        let l:default_style = (has_key(s:highlight, style_type) ? copy(s:highlight[style_type]) : { "gui": "NONE" })
         let s:highlight[style_type] = extend(l:default_style, a:style[style_type])
       endif
     endfor
@@ -44,20 +40,9 @@ function! s:h(group, style, ...)
   endif
 
   if g:dwarf_terminal_italics == 0
-    if has_key(s:highlight, "cterm") && s:highlight["cterm"] == "italic"
-      unlet s:highlight.cterm
-    endif
     if has_key(s:highlight, "gui") && s:highlight["gui"] == "italic"
       unlet s:highlight.gui
     endif
-  endif
-
-  if g:dwarf_termcolors == 16
-    let l:ctermfg = (has_key(s:highlight, "fg") ? s:highlight.fg.cterm16 : "NONE")
-    let l:ctermbg = (has_key(s:highlight, "bg") ? s:highlight.bg.cterm16 : "NONE")
-  else
-    let l:ctermfg = (has_key(s:highlight, "fg") ? s:highlight.fg.cterm : "NONE")
-    let l:ctermbg = (has_key(s:highlight, "bg") ? s:highlight.bg.cterm : "NONE")
   endif
 
   execute "highlight" a:group
@@ -65,9 +50,9 @@ function! s:h(group, style, ...)
     \ "guibg="   (has_key(s:highlight, "bg")    ? s:highlight.bg.gui   : "NONE")
     \ "guisp="   (has_key(s:highlight, "sp")    ? s:highlight.sp.gui   : "NONE")
     \ "gui="     (has_key(s:highlight, "gui")   ? s:highlight.gui      : "NONE")
-    \ "ctermfg=" . l:ctermfg
-    \ "ctermbg=" . l:ctermbg
-    \ "cterm="   (has_key(s:highlight, "cterm") ? s:highlight.cterm    : "NONE")
+    \ "ctermfg=NONE"
+    \ "ctermbg=NONE"
+    \ "cterm=NONE"
 endfunction
 " }}}
 
@@ -82,23 +67,7 @@ endfunction
 " }}}
 
 " Color Variables {{{
-let s:style = get(g:, 'dwarfcolor', 'forge')
-
-let s:themes = dwarf#GetThemes()
-
-let s:colors = s:themes.forge
-
-if s:style == 'onedark'
-  let s:colors = s:themes.onedark
-endif
-
-if s:style == 'dungeon'
-  let s:colors = s:themes.dungeon
-endif
-
-if s:style == 'iron'
-  let s:colors = s:themes.iron
-endif
+let s:colors = dwarf#GetColors()
 
 let s:red = s:colors.red
 let s:dark_red = s:colors.dark_red
